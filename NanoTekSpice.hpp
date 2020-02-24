@@ -27,6 +27,33 @@ namespace nts {
         virtual void dump() const = 0;
     };
 
+    class Input : public IComponent
+    {
+    public:
+        Input() {}
+        ~Input() {}
+        nts::Tristate compute(std::size_t pin = 1) {return this->pin;}
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {};
+        void dump() const {}
+
+    private:
+        Tristate pin;
+    };
+
+    class Output : public IComponent
+    {
+    public:
+        Output() {}
+        ~Output() {}
+        nts::Tristate compute(std::size_t pin = 1) {return this->linked->compute(pinlinked);}
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
+        void dump() const {}
+
+    private:
+        size_t pinlinked;
+        std::unique_ptr<IComponent> linked;
+    };
+
     class NanoTekSpice
     {
     public:

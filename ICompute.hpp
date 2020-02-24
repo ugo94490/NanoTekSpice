@@ -32,20 +32,6 @@ namespace nts
         }
     };
 
-    class ComputeAnd
-    {
-    public:
-        ComputeAnd() = default;
-        ~ComputeAnd() = default;
-        Tristate compute(Tristate const &val1, Tristate const &val2) {
-            if (val1 == UNDEFINED || val2 == UNDEFINED)
-                return UNDEFINED;
-            if (val1 && val2)
-                return TRUE;
-            return FALSE;
-        }
-    };
-
     class ComputeOr
     {
     public:
