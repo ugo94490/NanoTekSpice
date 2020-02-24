@@ -24,7 +24,7 @@ namespace nts
         ComputeAnd() = default;
         ~ComputeAnd() = default;
         Tristate compute(Tristate const &val1, Tristate const &val2) {
-            if (val1 == UNDEFINED && val2 == UNDEFINED)
+            if (val1 == UNDEFINED || val2 == UNDEFINED)
                 return UNDEFINED;
             if (val1 && val2)
                 return TRUE;
@@ -38,7 +38,7 @@ namespace nts
         ComputeAnd() = default;
         ~ComputeAnd() = default;
         Tristate compute(Tristate const &val1, Tristate const &val2) {
-            if (val1 == UNDEFINED && val2 == UNDEFINED)
+            if (val1 == UNDEFINED || val2 == UNDEFINED)
                 return UNDEFINED;
             if (val1 && val2)
                 return TRUE;
@@ -52,7 +52,7 @@ namespace nts
         ComputeOr() = default;
         ~ComputeOr() = default;
         Tristate compute(Tristate const &val1, Tristate const &val2) {
-            if (val1 == UNDEFINED && val2 == UNDEFINED)
+            if (val1 == UNDEFINED || val2 == UNDEFINED)
                 return UNDEFINED;
             if (val1 || val2)
                 return TRUE;
@@ -66,7 +66,7 @@ namespace nts
         ComputeXor() = default;
         ~ComputeXor() = default;
         Tristate compute(Tristate const &val1, Tristate const &val2) {
-            if (val1 == UNDEFINED && val2 == UNDEFINED)
+            if (val1 == UNDEFINED || val2 == UNDEFINED)
                 return UNDEFINED;
             if (val1 || val2 && val1 != val2)
                 return TRUE;
