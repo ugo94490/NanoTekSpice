@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 
 namespace nts {
     enum Tristate {
@@ -32,12 +33,15 @@ namespace nts {
     public:
         Input() {}
         ~Input() {}
-        nts::Tristate compute(std::size_t pin = 1) {return this->pin;}
+        nts::Tristate compute(std::size_t pin = 1) {}
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {};
+        void setValue(Tristate const &val, size_t pin = 1) {}
         void dump() const {}
 
     private:
-        Tristate pin;
+        std::set<size_t, std::string> entry;
+        std::set<size_t, std::set<std::shared_ptr<IComponent>, size_t>> adress;
+        std::set<size_t, Tristate> value;
     };
 
     class Output : public IComponent
@@ -45,13 +49,14 @@ namespace nts {
     public:
         Output() {}
         ~Output() {}
-        nts::Tristate compute(std::size_t pin = 1) {return this->linked->compute(pinlinked);}
+        nts::Tristate compute(std::size_t pin = 1) {}
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
         void dump() const {}
 
     private:
-        size_t pinlinked;
-        std::unique_ptr<IComponent> linked;
+        std::set<size_t, std::string> entry;
+        std::set<size_t, std::set<std::shared_ptr<IComponent>, size_t>> adress;
+        std::set<size_t, Tristate> value;
     };
 
     class NanoTekSpice
@@ -66,8 +71,9 @@ namespace nts {
         void setValue(const std::string &input, const Tristate &value);
 
     protected:
-        std::map<const std::string, Tristate&> inputs;
-        std::list<std::unique_ptr<IComponent>> components;
+        std::list<Input> inputs;
+        std::list<std::shared_ptr<IComponent>> outputs;
+        std::list<std::shared_ptr<IComponent>> components;
     private:
     };
 };
