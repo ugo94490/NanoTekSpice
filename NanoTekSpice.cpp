@@ -5,12 +5,22 @@
 ** NanoTekSpice
 */
 
+#include <vector>
+#include <iostream>
+#include "Parse.hpp"
 #include "NanoTekSpice.hpp"
 
 using namespace nts;
 
 NanoTekSpice::NanoTekSpice(std::string const &file)
 {
+    std::vector<std::string> tab;
+
+    tab = Parse::open_read(file);
+    if (tab.size() == 0 || Parse::check_error(tab) == 84) {
+        std::cout << "BAD FILE" << std::endl;
+        return;
+    }
 }
 
 NanoTekSpice::~NanoTekSpice()

@@ -31,26 +31,41 @@ namespace nts {
     class Input : public IComponent
     {
     public:
-        Input() {}
+        Input() {
+            entry.insert({1, "input"});
+            value.insert({1, UNDEFINED});
+        }
         ~Input() {}
         nts::Tristate compute(std::size_t pin = 1) {}
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {};
         void setValue(Tristate const &val, size_t pin = 1) {}
+        bool checkLinkable(std::size_t pin) {
+            if (pin == 1)
+                return true;
+            return false;
+        }
         void dump() const {}
 
     private:
         std::map<size_t, std::string> entry;
-        std::map<size_t, std::pair<IComponent&, size_t>> adress;
         std::map<size_t, Tristate> value;
     };
 
     class Output : public IComponent
     {
     public:
-        Output() {}
+        Output() {
+            entry.insert({1, "input"});
+            value.insert({1, UNDEFINED});
+        }
         ~Output() {}
         nts::Tristate compute(std::size_t pin = 1) {}
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
+        bool checkLinkable(std::size_t pin) {
+            if (pin == 1)
+                return true;
+            return false;
+        }
         void dump() const {}
 
     private:
@@ -71,9 +86,9 @@ namespace nts {
         void setValue(const std::string &input, const Tristate &value);
 
     protected:
-        std::map<std::string, Input&> inputs;
-        std::map<std::string, IComponent&> outputs;
-        std::map<std::string, IComponent&> components;
+        std::map<std::string, Input> inputs;
+        std::map<std::string, IComponent *> outputs;
+        std::map<std::string, IComponent *> components;
     private:
     };
 };
