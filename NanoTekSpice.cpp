@@ -35,7 +35,7 @@ void NanoTekSpice::loop()
 void NanoTekSpice::dump() const
 {
     for (auto it = components.begin(); it != components.end(); ++it)
-        (*it)->dump();
+        it->second.dump();
 }
 
 void NanoTekSpice::setValue(const std::string &input, const Tristate &value)
