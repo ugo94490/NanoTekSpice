@@ -55,17 +55,21 @@ Tristate Chip4071::compute(std::size_t pin)
         return UNDEFINED;
     switch (pin) {
         case 3:
-            return Compute::computeOr(address.find(1) != address.end() ? address[1].first.compute(address[1].second) : value[1],
+            value[3] = Compute::computeOr(address.find(1) != address.end() ? address[1].first.compute(address[1].second) : value[1],
             address.find(2) != address.end() ? address[2].first.compute(address[2].second) : value[2]);
+            return (value[3]);
         case 4:
-            return Compute::computeOr(address.find(5) != address.end() ? address[5].first.compute(address[5].second) : value[5],
+            value[4] = Compute::computeOr(address.find(5) != address.end() ? address[5].first.compute(address[5].second) : value[5],
             address.find(6) != address.end() ? address[6].first.compute(address[6].second) : value[6]);
+            return value[4];
         case 10:
-            return Compute::computeOr(address.find(8) != address.end() ? address[8].first.compute(address[8].second) : value[8],
+            value[10] = Compute::computeOr(address.find(8) != address.end() ? address[8].first.compute(address[8].second) : value[8],
             address.find(9) != address.end() ? address[9].first.compute(address[9].second) : value[9]);
+            return value[10];
         case 11:
-            return Compute::computeOr(address.find(12) != address.end() ? address[12].first.compute(address[12].second) : value[13],
+            value[11] = Compute::computeOr(address.find(12) != address.end() ? address[12].first.compute(address[12].second) : value[13],
             address.find(13) != address.end() ? address[13].first.compute(address[13].second) : value[13]);
+            return value[11];
         default:
             return UNDEFINED;
     }

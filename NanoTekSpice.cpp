@@ -19,12 +19,15 @@ NanoTekSpice::~NanoTekSpice()
 
 void NanoTekSpice::simulate()
 {
-
+    for (auto it = outputs.begin(); it != outputs.end(); ++it) {
+        it->second.compute();
+    }
 }
 
 void NanoTekSpice::display() const
 {
-
+    for (auto it = outputs.begin(); it != outputs.end(); ++it) {
+    }
 }
 
 void NanoTekSpice::loop()
@@ -40,5 +43,5 @@ void NanoTekSpice::dump() const
 
 void NanoTekSpice::setValue(const std::string &input, const Tristate &value)
 {
-
+    inputs[input].setValue(value);
 }
