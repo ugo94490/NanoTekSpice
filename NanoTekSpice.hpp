@@ -10,7 +10,6 @@
 #include <list>
 #include <map>
 #include <memory>
-#include <set>
 
 namespace nts {
     enum Tristate {
@@ -39,9 +38,9 @@ namespace nts {
         void dump() const {}
 
     private:
-        std::set<size_t, std::string> entry;
-        std::set<size_t, std::set<std::shared_ptr<IComponent>, size_t>> adress;
-        std::set<size_t, Tristate> value;
+        std::map<size_t, std::string> entry;
+        std::map<size_t, std::pair<IComponent&, size_t>> adress;
+        std::map<size_t, Tristate> value;
     };
 
     class Output : public IComponent
@@ -54,9 +53,9 @@ namespace nts {
         void dump() const {}
 
     private:
-        std::set<size_t, std::string> entry;
-        std::set<size_t, std::set<std::shared_ptr<IComponent>, size_t>> adress;
-        std::set<size_t, Tristate> value;
+        std::map<size_t, std::string> entry;
+        std::map<size_t, std::pair<IComponent&, size_t>> adress;
+        std::map<size_t, Tristate> value;
     };
 
     class NanoTekSpice
@@ -71,9 +70,9 @@ namespace nts {
         void setValue(const std::string &input, const Tristate &value);
 
     protected:
-        std::list<Input> inputs;
-        std::list<std::shared_ptr<IComponent>> outputs;
-        std::list<std::shared_ptr<IComponent>> components;
+        std::map<std::string, Input&> inputs;
+        std::map<std::string, IComponent&> outputs;
+        std::map<std::string, IComponent&> components;
     private:
     };
 };
