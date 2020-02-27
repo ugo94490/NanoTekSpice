@@ -55,21 +55,21 @@ Tristate Chip4001::compute(std::size_t pin)
         return UNDEFINED;
     switch (pin) {
         case 3:
-            value[3] = Compute::computeNor(address.find(1) != address.end() ? address.at(1).first.compute(address.at(1).second) : value[1],
-            address.find(2) != address.end() ? address.at(2).first.compute(address.at(2).second) : value[2]);
-            return (value[3]);
+            value.at(3) = Compute::computeNor(address.find(1) != address.end() ? address.at(1).first.compute(address.at(1).second) : value.at(1),
+            address.find(2) != address.end() ? address.at(2).first.compute(address.at(2).second) : value.at(2));
+            return (value.at(3));
         case 4:
-            value[4] = Compute::computeNor(address.find(5) != address.end() ? address.at(5).first.compute(address.at(5).second) : value[5],
-            address.find(6) != address.end() ? address.at(6).first.compute(address.at(6).second) : value[6]);
-            return value[4];
+            value.at(4) = Compute::computeNor(address.find(5) != address.end() ? address.at(5).first.compute(address.at(5).second) : value.at(5),
+            address.find(6) != address.end() ? address.at(6).first.compute(address.at(6).second) : value.at(6));
+            return value.at(4);
         case 10:
-            value[10] = Compute::computeNor(address.find(8) != address.end() ? address.at(8).first.compute(address.at(8).second) : value[8],
-            address.find(9) != address.end() ? address.at(9).first.compute(address.at(9).second) : value[9]);
-            return value[10];
+            value.at(10) = Compute::computeNor(address.find(8) != address.end() ? address.at(8).first.compute(address.at(8).second) : value.at(8),
+            address.find(9) != address.end() ? address.at(9).first.compute(address.at(9).second) : value.at(9));
+            return value.at(10);
         case 11:
-            value[11] = Compute::computeNor(address.find(12) != address.end() ? address.at(12).first.compute(address.at(12).second) : value[13],
-            address.find(13) != address.end() ? address.at(13).first.compute(address.at(13).second) : value[13]);
-            return value[11];
+            value.at(11) = Compute::computeNor(address.find(12) != address.end() ? address.at(12).first.compute(address.at(12).second) : value.at(13),
+            address.find(13) != address.end() ? address.at(13).first.compute(address.at(13).second) : value.at(13));
+            return value.at(11);
         default:
             return UNDEFINED;
     }
@@ -77,14 +77,14 @@ Tristate Chip4001::compute(std::size_t pin)
 
 bool Chip4001::checkLinkable(std::size_t pin)
 {
-    if (entry.find(pin) == entry.end() || entry[pin] != "output")
+    if (entry.find(pin) == entry.end() || entry.at(pin) != "output")
         return false;
     return true;
 }
 
 void Chip4001::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
-    if (entry.find(pin) == entry.end() || entry[pin] != "input" || !other.checkLinkable(otherPin))
+    if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin))
         exit(84);
     address.at(pin).first = other;
     address.at(pin).second = otherPin;
@@ -92,4 +92,8 @@ void Chip4001::setLink(std::size_t pin, nts::IComponent &other, std::size_t othe
 
 void Chip4001::dump() const
 {
+}
+
+void Chip4001::setValue(Tristate const &val, size_t pin) {
+    value.find(pin)->second = val;
 }

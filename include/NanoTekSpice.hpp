@@ -26,6 +26,7 @@ namespace nts {
         virtual void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) = 0;
         virtual bool checkLinkable(std::size_t pin) = 0;
         virtual void dump() const = 0;
+        virtual void setValue(Tristate const &val, size_t pin = 1) = 0;
     };
 
     class Input : public IComponent
@@ -35,16 +36,18 @@ namespace nts {
             entry.insert({1, "input"});
             value.insert({1, UNDEFINED});
         }
-        ~Input() {}
+        ~Input() = default;
         nts::Tristate compute(std::size_t pin = 1) { return (UNDEFINED);}
-        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {};
-        void setValue(Tristate const &val, size_t pin = 1) {}
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
         bool checkLinkable(std::size_t pin) {
             if (pin == 1)
                 return true;
             return false;
         }
         void dump() const {}
+        void setValue(Tristate const &val, size_t pin = 1) {
+            value.at(pin) = val;
+        }
 
     private:
         std::map<size_t, std::string> entry;
@@ -58,7 +61,7 @@ namespace nts {
             entry.insert({1, "input"});
             value.insert({1, UNDEFINED});
         }
-        ~Output() {}
+        ~Output() = default;
         nts::Tristate compute(std::size_t pin = 1) {return (UNDEFINED);}
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
         bool checkLinkable(std::size_t pin) {
@@ -67,6 +70,7 @@ namespace nts {
             return false;
         }
         void dump() const {}
+        void setValue(Tristate const &val, size_t pin = 1);
 
     private:
         std::map<size_t, std::string> entry;
@@ -84,9 +88,6 @@ namespace nts {
         void loop();
         void dump() const;
         void setValue(const std::string &input, const Tristate &value);
-        void setInput(std::map<std::string, IComponent *> input);
-        void setComponent(std::map<std::string, IComponent *> input);
-        void setOutput(std::map<std::string, IComponent *> input);
     protected:
         std::map<std::string, IComponent *> inputs;
         std::map<std::string, IComponent *> outputs;

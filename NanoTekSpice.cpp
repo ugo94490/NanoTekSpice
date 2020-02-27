@@ -17,9 +17,16 @@ NanoTekSpice::NanoTekSpice(std::string const &file)
     std::vector<std::string> tab;
 
     tab = Parse::open_read(file);
-    if (tab.size() == 0 || Parse::check_error(tab, *this) == 84) {
+    if (tab.size() == 0) {
         std::cout << "BAD FILE" << std::endl;
+        exit (84);
     }
+    std::vector<std::string> clean = Parse::clean_comment(tab);
+    clean = Parse::clean_str(clean);
+    inputs = Parse::get_input(clean);
+    outputs = Parse::get_output(clean);
+    components = Parse::get_compo(clean);
+    Parse::parse_link(clean, components, outputs, inputs);
 }
 
 NanoTekSpice::~NanoTekSpice()
@@ -41,31 +48,25 @@ void NanoTekSpice::display() const
 
 void NanoTekSpice::loop()
 {
-
 }
 
 void NanoTekSpice::dump() const
 {
-    /*for (auto it = components.begin(); it != components.end(); ++it)
-        it->second.dump();*/
+    for (auto it = components.begin(); it != components.end(); ++it)
+        it->second->dump();
 }
 
 void NanoTekSpice::setValue(const std::string &input, const Tristate &value)
 {
-    inputs[input].setValue(value);
+    inputs.find(input)->second->setValue(value);
 }
 
-void NanoTekSpice::setInput(std::map<std::string, IComponent *> input)
+int main(int ac, char **av)
 {
-    inputs = input;
-}
+    if (ac < 2)
+        return (84);
 
-void NanoTekSpice::setComponent(std::map<std::string, IComponent *> component)
-{
-    components = component;
-}
-
-void NanoTekSpice::setInput(std::map<std::string, IComponent *> output)
-{
-    outputs = output;
+    NanoTekSpice nano(av[1]);
+    nano.loop();
+    return (0);
 }

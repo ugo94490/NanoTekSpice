@@ -19,6 +19,7 @@ namespace nts {
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin);
         bool checkLinkable(std::size_t pin);
         void dump() const;
+        void setValue(Tristate const &val, size_t pin = 1);
     
     private:
         std::map<size_t, std::string> entry;
@@ -35,6 +36,7 @@ namespace nts {
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin);
         bool checkLinkable(std::size_t pin);
         void dump() const;
+        void setValue(Tristate const &val, size_t pin = 1);
     
     private:
         std::map<size_t, std::string> entry;
