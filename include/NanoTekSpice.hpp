@@ -70,7 +70,7 @@ namespace nts {
             return false;
         }
         void dump() const {}
-        void setValue(Tristate const &val, size_t pin = 1);
+        void setValue(Tristate const &val, size_t pin = 1) {}
 
     private:
         std::map<size_t, std::string> entry;
