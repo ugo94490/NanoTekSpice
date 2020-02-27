@@ -372,22 +372,31 @@ void parse_link(std::vector<std::string> tab, std::map<std::string, IComponent *
     return;
 }
 
-int Parse::check_error(std::vector<std::string> tab)
+void fill_nano(std::map<std::string, IComponent *> *component, std::map<std::string, IComponent *> *output, std::map<std::string, IComponent *> *input, NanoTekSpice &obj)
+{
+
+}
+
+int Parse::check_error(std::vector<std::string> tab, NanoTekSpice &obj)
 {
     std::map<std::string, IComponent *> input;
     std::map<std::string, IComponent *> component;
     std::map<std::string, IComponent *> output;
     std::vector<std::string> clean = Parse::clean_comment(tab);
 
-    clean = Parse::clean_str(clean);
-    input = Parse::get_input(clean);
-    output = Parse::get_output(clean);
-    component = Parse::get_compo(clean);
+    clean = clean_str(clean);
+    input = get_input(clean);
+    output = get_output(clean);
+    component = get_compo(clean);
     parse_link(clean, component, output, input);
+    obj.setInput(input);
+    obj.setComponent(component);
+    obj.setOutput(output);
+
     return (0);
 }
 
-int main(int ac, char **av)
+/*int main(int ac, char **av)
 {
 
     std::vector<std::string> tab;
@@ -406,3 +415,4 @@ int main(int ac, char **av)
     }
     return (0);
 }
+*/

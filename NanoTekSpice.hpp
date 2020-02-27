@@ -84,7 +84,9 @@ namespace nts {
         void loop();
         void dump() const;
         void setValue(const std::string &input, const Tristate &value);
-
+        void setInput(std::map<std::string, IComponent *> input);
+        void setComponent(std::map<std::string, IComponent *> input);
+        void setOutput(std::map<std::string, IComponent *> input);
     protected:
         std::map<std::string, IComponent *> inputs;
         std::map<std::string, IComponent *> outputs;

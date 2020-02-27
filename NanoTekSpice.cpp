@@ -17,9 +17,8 @@ NanoTekSpice::NanoTekSpice(std::string const &file)
     std::vector<std::string> tab;
 
     tab = Parse::open_read(file);
-    if (tab.size() == 0 || Parse::check_error(tab) == 84) {
+    if (tab.size() == 0 || Parse::check_error(tab, *this) == 84) {
         std::cout << "BAD FILE" << std::endl;
-        return;
     }
 }
 
@@ -54,4 +53,19 @@ void NanoTekSpice::dump() const
 void NanoTekSpice::setValue(const std::string &input, const Tristate &value)
 {
     inputs[input].setValue(value);
+}
+
+void NanoTekSpice::setInput(std::map<std::string, IComponent *> input)
+{
+    inputs = input;
+}
+
+void NanoTekSpice::setComponent(std::map<std::string, IComponent *> component)
+{
+    components = component;
+}
+
+void NanoTekSpice::setInput(std::map<std::string, IComponent *> output)
+{
+    outputs = output;
 }
