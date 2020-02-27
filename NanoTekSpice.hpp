@@ -36,7 +36,7 @@ namespace nts {
             value.insert({1, UNDEFINED});
         }
         ~Input() {}
-        nts::Tristate compute(std::size_t pin = 1) {}
+        nts::Tristate compute(std::size_t pin = 1) { return (UNDEFINED);}
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {};
         void setValue(Tristate const &val, size_t pin = 1) {}
         bool checkLinkable(std::size_t pin) {
@@ -59,7 +59,7 @@ namespace nts {
             value.insert({1, UNDEFINED});
         }
         ~Output() {}
-        nts::Tristate compute(std::size_t pin = 1) {}
+        nts::Tristate compute(std::size_t pin = 1) {return (UNDEFINED);}
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
         bool checkLinkable(std::size_t pin) {
             if (pin == 1)
@@ -86,7 +86,7 @@ namespace nts {
         void setValue(const std::string &input, const Tristate &value);
 
     protected:
-        std::map<std::string, Input> inputs;
+        std::map<std::string, IComponent *> inputs;
         std::map<std::string, IComponent *> outputs;
         std::map<std::string, IComponent *> components;
     private:

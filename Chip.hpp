@@ -10,7 +10,7 @@
 #include "ICompute.hpp"
 
 namespace nts {
-    class Chip4001 : IComponent
+    class Chip4001 : public IComponent
     {
     public:
         Chip4001();
@@ -26,7 +26,7 @@ namespace nts {
         std::map<size_t, Tristate> value;
     };
 
-    class Chip4071 : IComponent
+    class Chip4071 : public IComponent
     {
     public:
         Chip4071();
