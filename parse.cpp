@@ -211,6 +211,8 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
     size_t start_pin = index_scd + 1;
     size_t end_pin = line.size();
     std::string nb_pin;
+    IComponent *found_compo = output->find(new_compo)->second;
+    IComponent &ref_to_comp = *found_compo;
 
     if (line[line.size() - 1] == '\n') {
         std::cout << end_pin - start_pin << std::endl;
@@ -228,15 +230,15 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
         return;
     }
     if (output->count(new_compo) != 0) {
-        component->at(save)->setLink(std::stoi(pin), output->find(new_compo), std::stoi(nb_pin));
+        component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
     if (component->count(new_compo) != 0) {
-        component->at(save)->setLink(std::stoi(pin), output->find(new_compo), std::stoi(nb_pin));
+        component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
     if (input->count(new_compo) != 0) {
-        component->at(save)->setLink(std::stoi(pin), input->find(new_compo), std::stoi(nb_pin));
+        component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
 }
