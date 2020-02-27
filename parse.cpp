@@ -212,7 +212,6 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
     size_t end_pin = line.size();
     std::string nb_pin;
     IComponent *found_compo;
-    IComponent &ref_to_comp;
 
     if (line[line.size() - 1] == '\n') {
         std::cout << end_pin - start_pin << std::endl;
@@ -231,23 +230,124 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
     }
     if (output->count(new_compo) != 0) {
         found_compo = output->find(new_compo)->second;
-        ref_to_comp = *found_compo;
+        IComponent &ref_to_comp = *found_compo;
         component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
     if (component->count(new_compo) != 0) {
         found_compo = component->find(new_compo)->second;
-        ref_to_comp = *found_compo;
+        IComponent &ref_to_comp = *found_compo;
         component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
     if (input->count(new_compo) != 0) {
         found_compo = input->find(new_compo)->second;
-        ref_to_comp = *found_compo;
+        IComponent &ref_to_comp = *found_compo;
         component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
 }
+
+void make_link_input(std::map<std::string, IComponent *> *component, std::map<std::string, IComponent *> *output, std::map<std::string, IComponent *> *input, std::string line)
+{
+    int index = line.find(':', 0);
+    std::string save = line.substr(0, index);
+    size_t start = index + 1;
+    size_t end = line.find(' ', 0);
+    std::string pin = line.substr(start, end - start);
+    std::string full_compo = line.substr(end + 1, line.size() - end);
+    size_t index_scd = line.find(':', end);
+    std::string new_compo = line.substr(end + 1, index_scd - end - 1);
+    size_t start_pin = index_scd + 1;
+    size_t end_pin = line.size();
+    std::string nb_pin;
+    IComponent *found_compo;
+
+    if (line[line.size() - 1] == '\n') {
+        std::cout << end_pin - start_pin << std::endl;
+        nb_pin = line.substr(start_pin, end_pin - start_pin - 1);
+    } else {
+        nb_pin = line.substr(start_pin, end_pin - start_pin);
+    }
+    if (check_digit(pin) == 84) {
+        std::cerr << "Non Numerical-Number for first Pin" << std::endl;
+        return;
+    }
+    std::cout << nb_pin << std::endl;
+    if (check_digit(nb_pin) == 84) {
+        std::cerr << "Non Numerical-Number for second Pin" << std::endl;
+        return;
+    }
+    if (output->count(new_compo) != 0) {
+        found_compo = output->find(new_compo)->second;
+        IComponent &ref_to_comp =  *found_compo;
+        input->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        return;
+    }
+    if (component->count(new_compo) != 0) {
+        found_compo = component->find(new_compo)->second;
+        IComponent &ref_to_comp = *found_compo;
+        input->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        return;
+    }
+    if (input->count(new_compo) != 0) {
+        found_compo = input->find(new_compo)->second;
+        IComponent &ref_to_comp = *found_compo;
+        input->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        return;
+    }
+}
+
+void make_link_output(std::map<std::string, IComponent *> *component, std::map<std::string, IComponent *> *output, std::map<std::string, IComponent *> *input, std::string line)
+{
+    int index = line.find(':', 0);
+    std::string save = line.substr(0, index);
+    size_t start = index + 1;
+    size_t end = line.find(' ', 0);
+    std::string pin = line.substr(start, end - start);
+    std::string full_compo = line.substr(end + 1, line.size() - end);
+    size_t index_scd = line.find(':', end);
+    std::string new_compo = line.substr(end + 1, index_scd - end - 1);
+    size_t start_pin = index_scd + 1;
+    size_t end_pin = line.size();
+    std::string nb_pin;
+    IComponent *found_compo;
+
+    if (line[line.size() - 1] == '\n') {
+        std::cout << end_pin - start_pin << std::endl;
+        nb_pin = line.substr(start_pin, end_pin - start_pin - 1);
+    } else {
+        nb_pin = line.substr(start_pin, end_pin - start_pin);
+    }
+    if (check_digit(pin) == 84) {
+        std::cerr << "Non Numerical-Number for first Pin" << std::endl;
+        return;
+    }
+    std::cout << nb_pin << std::endl;
+    if (check_digit(nb_pin) == 84) {
+        std::cerr << "Non Numerical-Number for second Pin" << std::endl;
+        return;
+    }
+    if (output->count(new_compo) != 0) {
+        found_compo = output->find(new_compo)->second;
+        IComponent &ref_to_comp = *found_compo;
+        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        return;
+    }
+    if (component->count(new_compo) != 0) {
+        found_compo = component->find(new_compo)->second;
+        IComponent &ref_to_comp = *found_compo;
+        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        return;
+    }
+    if (input->count(new_compo) != 0) {
+        found_compo = input->find(new_compo)->second;
+        IComponent &ref_to_comp = *found_compo;
+        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        return;
+    }
+}
+
 
 void parse_link(std::vector<std::string> tab, std::map<std::string, IComponent *> component, std::map<std::string, IComponent *> output, std::map<std::string, IComponent *> input)
 {
@@ -260,11 +360,11 @@ void parse_link(std::vector<std::string> tab, std::map<std::string, IComponent *
         }
         if (start == true && check_in_input(tab[i], input) != -1) {
             std::cout << "DETECT INPUT : " << tab[i] << std::endl;
-            //make_link_input(&component, &output, &input, tab[i]);
+            make_link_input(&component, &output, &input, tab[i]);
         }
         if (start == true && check_in_output(tab[i], output) != -1) {
             std::cout << "DETECT OUTPUT : " << tab[i] << std::endl;
-            //make_link_output(&component, &output, &input, tab[i]);
+            make_link_output(&component, &output, &input, tab[i]);
         }
         if (tab[i].compare(0, 7, ".links:") == 0)
             start = true;
