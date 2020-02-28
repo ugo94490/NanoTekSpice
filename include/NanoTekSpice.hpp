@@ -75,9 +75,11 @@ namespace nts {
         }
         ~Output() = default;
         nts::Tristate compute(std::size_t pin = 1) {
-            Tristate val = UNDEFINED;
-            if (adress.find(pin) != adress.end())
-                val = adress.at(pin).first.compute(adress.at(pin).second);
+            if (adress.find(1) == adress.end()) {
+                std::cerr << "output not linked to anything" << std::endl;
+                exit(84);
+            }
+            Tristate val = adress.at(pin).first.compute(adress.at(pin).second);
             setValue(val, pin);
             return (val);
         }

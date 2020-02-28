@@ -81,6 +81,8 @@ void NanoTekSpice::setValue(std::string str)
             state = FALSE;
         inputs.at(token)->setValue(state);
     }
+    else
+        exit(84);
 }
 
 void NanoTekSpice::mainloop()
@@ -107,7 +109,9 @@ void NanoTekSpice::mainloop()
 
 void NanoTekSpice::loop()
 {
-
+    while (true) {
+        simulate();
+    }
 }
 
 void NanoTekSpice::dump() const
