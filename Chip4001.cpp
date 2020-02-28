@@ -51,12 +51,16 @@ Chip4001::~Chip4001()
 
 Tristate Chip4001::compute(std::size_t pin)
 {
-    if (pin < 1 || pin == 7 || pin > 13)
+    std::cout << "compute" << std::endl;
+    if (pin < 1 || pin == 7 || pin > 13) {
+        std::cout << "not an input" << std::endl;
         return UNDEFINED;
+    }
     switch (pin) {
         case 3:
             value.at(3) = Compute::computeNor(address.find(1) != address.end() ? address.at(1).first.compute(address.at(1).second) : value.at(1),
             address.find(2) != address.end() ? address.at(2).first.compute(address.at(2).second) : value.at(2));
+            std::cout << "value at 3:" << value.at(3) << std::endl;
             return (value.at(3));
         case 4:
             value.at(4) = Compute::computeNor(address.find(5) != address.end() ? address.at(5).first.compute(address.at(5).second) : value.at(5),
@@ -84,10 +88,17 @@ bool Chip4001::checkLinkable(std::size_t pin)
 
 void Chip4001::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
-    if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin))
+    std::cout << pin << ", " << otherPin << std::endl;
+    if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin)) {
+        std::cerr << "Tried to link component output as input" << std::endl;
         exit(84);
-    address.at(pin).first = other;
-    address.at(pin).second = otherPin;
+    }
+    if (address.find(pin) != address.end()) {
+        address.at(pin).first = other;
+        address.at(pin).second = otherPin;
+    }
+    else
+        address.insert({pin, {other, otherPin}});
 }
 
 void Chip4001::dump() const
@@ -95,5 +106,5 @@ void Chip4001::dump() const
 }
 
 void Chip4001::setValue(Tristate const &val, size_t pin) {
-    value.find(pin)->second = val;
+    value.at(pin) = val;
 }

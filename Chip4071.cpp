@@ -51,8 +51,11 @@ Chip4071::~Chip4071()
 
 Tristate Chip4071::compute(std::size_t pin)
 {
-    if (pin < 1 || pin == 7 || pin > 13)
+    std::cout << "compute" << std::endl;
+    if (pin < 1 || pin == 7 || pin > 13) {
+        std::cout << "not an input" << std::endl;
         return UNDEFINED;
+    }
     switch (pin) {
         case 3:
             value.at(3) = Compute::computeOr(address.find(1) != address.end() ? address.at(1).first.compute(address.at(1).second) : value.at(1),
@@ -84,10 +87,17 @@ bool Chip4071::checkLinkable(std::size_t pin)
 
 void Chip4071::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
-    if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin))
+    std::cout << pin << ", " << otherPin << std::endl;
+    if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin)) {
+        std::cerr << "Tried to link component output as input" << std::endl;
         exit(84);
-    address.at(pin).first = other;
-    address.at(pin).second = otherPin;
+    }
+    if (address.find(pin) != address.end()) {
+        address.at(pin).first = other;
+        address.at(pin).second = otherPin;
+    }
+    else
+        address.insert({pin, {other, otherPin}});
 }
 
 void Chip4071::dump() const

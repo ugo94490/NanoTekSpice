@@ -33,18 +33,26 @@ namespace nts {
     {
     public:
         Input() {
-            entry.insert({1, "input"});
+            entry.insert({1, "output"});
             value.insert({1, UNDEFINED});
         }
         ~Input() = default;
         nts::Tristate compute(std::size_t pin = 1) { return (UNDEFINED);}
-        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
+            std::cerr << "Tried to link pure input with an output !" << std::endl;
+            exit(84);
+        }
         bool checkLinkable(std::size_t pin) {
             if (pin == 1)
                 return true;
             return false;
         }
-        void dump() const {}
+        void dump() const {
+            if (value.at(1) == UNDEFINED)
+                std::cout << "U" << std::endl;
+            else
+                std::cout << value.at(1) << std::endl;
+        }
         void setValue(Tristate const &val, size_t pin = 1) {
             value.at(pin) = val;
         }
@@ -62,14 +70,32 @@ namespace nts {
             value.insert({1, UNDEFINED});
         }
         ~Output() = default;
-        nts::Tristate compute(std::size_t pin = 1) {return (UNDEFINED);}
-        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {}
+        nts::Tristate compute(std::size_t pin = 1) {
+            std::cout << pin << std::endl;
+            if (adress.find(pin) == adress.end())
+                return (adress.at(pin).first.compute(adress.at(pin).second));
+            std::cout << "output could not be calculated" << std::endl;
+            return (UNDEFINED);
+        }
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
+            if (!other.checkLinkable(otherPin)) {
+                std::cerr << "Tried to link pure output to input !" << std::endl;
+                exit(84);
+            }
+            adress.insert({pin, {other, otherPin}});
+            std::cout << "output linked!" << std::endl;
+        }
         bool checkLinkable(std::size_t pin) {
             if (pin == 1)
                 return true;
             return false;
         }
-        void dump() const {}
+        void dump() const {
+            if (value.at(1) == UNDEFINED)
+                std::cout << "U" << std::endl;
+            else
+                std::cout << value.at(1) << std::endl;
+        }
         void setValue(Tristate const &val, size_t pin = 1) {}
 
     private:
@@ -83,6 +109,9 @@ namespace nts {
     public:
         NanoTekSpice(std::string const &file);
         ~NanoTekSpice();
+        void mainloop();
+        void setValues(std::string str);
+        void setValue(std::string str);
         void simulate();
         void display() const;
         void loop();

@@ -7,6 +7,7 @@
 
 #pragma once
 
+#include <iostream>
 #include "ICompute.hpp"
 
 namespace nts {

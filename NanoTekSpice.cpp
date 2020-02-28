@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include "Parse.hpp"
 #include "NanoTekSpice.hpp"
 
@@ -35,19 +36,78 @@ NanoTekSpice::~NanoTekSpice()
 
 void NanoTekSpice::simulate()
 {
-    /*for (auto it = outputs.begin(); it != outputs.end(); ++it) {
-        it->second.compute();
-    }*/
+    for (auto it = outputs.begin(); it != outputs.end(); ++it) {
+        it->second->compute();
+    }
 }
 
 void NanoTekSpice::display() const
 {
     for (auto it = outputs.begin(); it != outputs.end(); ++it) {
+        std::cout << it->first << "=";
+        it->second->dump();
+    }
+}
+
+void NanoTekSpice::setValues(std::string str)
+{
+    std::string delimiter = " ";
+    size_t pos = 0;
+    std::string token;
+
+    while ((pos = str.find(delimiter)) != std::string::npos) {
+        token = str.substr(0, pos);
+        setValue(token);
+        str.erase(0, pos + delimiter.length());
+    }
+    setValue(str);
+}
+
+void NanoTekSpice::setValue(std::string str)
+{
+    std::string delimiter = "=";
+    size_t pos = 0;
+    std::string token;
+    Tristate state = UNDEFINED;
+
+    while ((pos = str.find(delimiter)) != std::string::npos) {
+        token = str.substr(0, pos);
+        str.erase(0, pos + delimiter.length());
+    }
+    if ((str == "1" || str == "0" || str == "-1") && inputs.find(token) != inputs.end()) {
+        if (str == "1")
+            state = TRUE;
+        if (str == "0")
+            state = FALSE;
+        inputs.at(token)->setValue(state);
+        inputs.at(token)->dump();
+    }
+}
+
+void NanoTekSpice::mainloop()
+{
+    std::string usrinput = "d";
+
+    simulate();
+    display();
+    while (usrinput != "exit") {
+        std::getline(std::cin, usrinput);
+        if (usrinput == "simulate")
+            simulate();
+        else if (usrinput == "display")
+            display();
+        else if (usrinput == "dump")
+            dump();
+        else if (usrinput == "loop")
+            loop();
+        else if (usrinput != "exit")
+            setValues(usrinput);
     }
 }
 
 void NanoTekSpice::loop()
 {
+
 }
 
 void NanoTekSpice::dump() const
@@ -65,8 +125,9 @@ int main(int ac, char **av)
 {
     if (ac < 2)
         return (84);
-
     NanoTekSpice nano(av[1]);
-    nano.loop();
+    for (int i = 2; i < ac; i++)
+        nano.setValue(av[i]);
+    nano.mainloop();
     return (0);
 }
