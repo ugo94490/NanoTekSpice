@@ -37,7 +37,11 @@ namespace nts {
             value.insert({1, UNDEFINED});
         }
         ~Input() = default;
-        nts::Tristate compute(std::size_t pin = 1) { return (UNDEFINED);}
+        nts::Tristate compute(std::size_t pin = 1) {
+            if (value.find(pin) != value.end())
+                return value.at(pin);
+            return (UNDEFINED);
+        }
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
             std::cerr << "Tried to link pure input with an output !" << std::endl;
             exit(84);
@@ -71,11 +75,11 @@ namespace nts {
         }
         ~Output() = default;
         nts::Tristate compute(std::size_t pin = 1) {
-            std::cout << pin << std::endl;
-            if (adress.find(pin) == adress.end())
-                return (adress.at(pin).first.compute(adress.at(pin).second));
-            std::cout << "output could not be calculated" << std::endl;
-            return (UNDEFINED);
+            Tristate val = UNDEFINED;
+            if (adress.find(pin) != adress.end())
+                val = adress.at(pin).first.compute(adress.at(pin).second);
+            setValue(val, pin);
+            return (val);
         }
         void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
             if (!other.checkLinkable(otherPin)) {
@@ -83,7 +87,6 @@ namespace nts {
                 exit(84);
             }
             adress.insert({pin, {other, otherPin}});
-            std::cout << "output linked!" << std::endl;
         }
         bool checkLinkable(std::size_t pin) {
             if (pin == 1)
@@ -96,7 +99,9 @@ namespace nts {
             else
                 std::cout << value.at(1) << std::endl;
         }
-        void setValue(Tristate const &val, size_t pin = 1) {}
+        void setValue(Tristate const &val, size_t pin = 1) {
+            value.at(pin) = val;
+        }
 
     private:
         std::map<size_t, std::string> entry;

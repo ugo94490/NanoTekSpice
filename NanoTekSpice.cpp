@@ -19,7 +19,7 @@ NanoTekSpice::NanoTekSpice(std::string const &file)
 
     tab = Parse::open_read(file);
     if (tab.size() == 0) {
-        std::cout << "BAD FILE" << std::endl;
+        std::cerr << "BAD FILE" << std::endl;
         exit (84);
     }
     std::vector<std::string> clean = Parse::clean_comment(tab);
@@ -80,7 +80,6 @@ void NanoTekSpice::setValue(std::string str)
         if (str == "0")
             state = FALSE;
         inputs.at(token)->setValue(state);
-        inputs.at(token)->dump();
     }
 }
 
@@ -91,6 +90,7 @@ void NanoTekSpice::mainloop()
     simulate();
     display();
     while (usrinput != "exit") {
+        std::cout << "> ";
         std::getline(std::cin, usrinput);
         if (usrinput == "simulate")
             simulate();

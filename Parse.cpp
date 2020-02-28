@@ -214,7 +214,6 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
     IComponent *found_compo;
 
     if (line[line.size() - 1] == '\n') {
-        std::cout << end_pin - start_pin << std::endl;
         nb_pin = line.substr(start_pin, end_pin - start_pin - 1);
     } else {
         nb_pin = line.substr(start_pin, end_pin - start_pin);
@@ -223,27 +222,23 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
         std::cerr << "Non Numerical-Number for first Pin" << std::endl;
         return;
     }
-    std::cout << nb_pin << std::endl;
     if (check_digit(nb_pin) == 84) {
         std::cerr << "Non Numerical-Number for second Pin" << std::endl;
         return;
     }
     if (output->count(new_compo) != 0) {
-        found_compo = output->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(component->at(save));
+        output->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (component->count(new_compo) != 0) {
-        found_compo = component->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(component->at(save));
+        component->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (input->count(new_compo) != 0) {
-        found_compo = input->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(component->at(save));
+        input->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
 }
@@ -264,7 +259,6 @@ void make_link_input(std::map<std::string, IComponent *> *component, std::map<st
     IComponent *found_compo;
 
     if (line[line.size() - 1] == '\n') {
-        std::cout << end_pin - start_pin << std::endl;
         nb_pin = line.substr(start_pin, end_pin - start_pin - 1);
     } else {
         nb_pin = line.substr(start_pin, end_pin - start_pin);
@@ -273,27 +267,23 @@ void make_link_input(std::map<std::string, IComponent *> *component, std::map<st
         std::cerr << "Non Numerical-Number for first Pin" << std::endl;
         return;
     }
-    std::cout << nb_pin << std::endl;
     if (check_digit(nb_pin) == 84) {
         std::cerr << "Non Numerical-Number for second Pin" << std::endl;
         return;
     }
     if (output->count(new_compo) != 0) {
-        found_compo = output->find(new_compo)->second;
-        IComponent &ref_to_comp =  *found_compo;
-        input->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(input->at(save));
+        output->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (component->count(new_compo) != 0) {
-        found_compo = component->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        input->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(input->at(save));
+        component->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (input->count(new_compo) != 0) {
-        found_compo = input->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        input->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(input->at(save));
+        input->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
 }
@@ -314,7 +304,6 @@ void make_link_output(std::map<std::string, IComponent *> *component, std::map<s
     IComponent *found_compo;
 
     if (line[line.size() - 1] == '\n') {
-        std::cout << end_pin - start_pin << std::endl;
         nb_pin = line.substr(start_pin, end_pin - start_pin - 1);
     } else {
         nb_pin = line.substr(start_pin, end_pin - start_pin);
@@ -323,27 +312,23 @@ void make_link_output(std::map<std::string, IComponent *> *component, std::map<s
         std::cerr << "Non Numerical-Number for first Pin" << std::endl;
         return;
     }
-    std::cout << nb_pin << std::endl;
     if (check_digit(nb_pin) == 84) {
         std::cerr << "Non Numerical-Number for second Pin" << std::endl;
         return;
     }
     if (output->count(new_compo) != 0) {
-        found_compo = output->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(output->at(save));
+        output->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (component->count(new_compo) != 0) {
-        found_compo = component->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(output->at(save));
+        component->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (input->count(new_compo) != 0) {
-        found_compo = input->find(new_compo)->second;
-        IComponent &ref_to_comp = *found_compo;
-        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
+        IComponent &ref_to_comp = *(output->at(save));
+        input->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
 }
@@ -355,15 +340,12 @@ void Parse::parse_link(std::vector<std::string> tab, std::map<std::string, IComp
 
     for (std::vector<std::string>::size_type i = 0; i < tab.size(); i++) {
         if (start == true && check_in_compo(tab[i], component) != -1) {
-            std::cout << "DETECT COMPO : " << tab[i] << std::endl;
             make_link_compo(&component, &output, &input, tab[i]);
         }
         if (start == true && check_in_input(tab[i], input) != -1) {
-            std::cout << "DETECT INPUT : " << tab[i] << std::endl;
             make_link_input(&component, &output, &input, tab[i]);
         }
         if (start == true && check_in_output(tab[i], output) != -1) {
-            std::cout << "DETECT OUTPUT : " << tab[i] << std::endl;
             make_link_output(&component, &output, &input, tab[i]);
         }
         if (tab[i].compare(0, 7, ".links:") == 0)

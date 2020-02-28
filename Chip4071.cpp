@@ -51,9 +51,8 @@ Chip4071::~Chip4071()
 
 Tristate Chip4071::compute(std::size_t pin)
 {
-    std::cout << "compute" << std::endl;
     if (pin < 1 || pin == 7 || pin > 13) {
-        std::cout << "not an input" << std::endl;
+        std::cerr << "invalid pin for compute" << std::endl;
         return UNDEFINED;
     }
     switch (pin) {
@@ -74,6 +73,7 @@ Tristate Chip4071::compute(std::size_t pin)
             address.find(13) != address.end() ? address.at(13).first.compute(address.at(13).second) : value.at(13));
             return value.at(11);
         default:
+            std::cerr << "invalid pin for compute" << std::endl;
             return UNDEFINED;
     }
 }
@@ -87,8 +87,8 @@ bool Chip4071::checkLinkable(std::size_t pin)
 
 void Chip4071::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
-    std::cout << pin << ", " << otherPin << std::endl;
     if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin)) {
+        std::cerr << pin << ", " << otherPin << std::endl;
         std::cerr << "Tried to link component output as input" << std::endl;
         exit(84);
     }
