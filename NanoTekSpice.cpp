@@ -94,6 +94,8 @@ void NanoTekSpice::mainloop()
     while (usrinput != "exit") {
         std::cout << "> ";
         std::getline(std::cin, usrinput);
+        if (std::cin.eof() == 1)
+            exit(0);
         if (usrinput == "simulate")
             simulate();
         else if (usrinput == "display")

@@ -220,11 +220,11 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
     }
     if (check_digit(pin) == 84) {
         std::cerr << "Non Numerical-Number for first Pin" << std::endl;
-        return;
+        exit(84);
     }
     if (check_digit(nb_pin) == 84) {
         std::cerr << "Non Numerical-Number for second Pin" << std::endl;
-        return;
+        exit(84);
     }
     if (output->count(new_compo) != 0) {
         IComponent &ref_to_comp = *(component->at(save));
@@ -265,11 +265,11 @@ void make_link_input(std::map<std::string, IComponent *> *component, std::map<st
     }
     if (check_digit(pin) == 84) {
         std::cerr << "Non Numerical-Number for first Pin" << std::endl;
-        return;
+        exit(84);
     }
     if (check_digit(nb_pin) == 84) {
         std::cerr << "Non Numerical-Number for second Pin" << std::endl;
-        return;
+        exit(84);
     }
     if (output->count(new_compo) != 0) {
         IComponent &ref_to_comp = *(input->at(save));
@@ -282,9 +282,8 @@ void make_link_input(std::map<std::string, IComponent *> *component, std::map<st
         return;
     }
     if (input->count(new_compo) != 0) {
-        IComponent &ref_to_comp = *(input->at(save));
-        input->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
-        return;
+        std::cerr << "Linking an input to another input" << std::endl;
+        exit(84);
     }
 }
 
@@ -310,16 +309,15 @@ void make_link_output(std::map<std::string, IComponent *> *component, std::map<s
     }
     if (check_digit(pin) == 84) {
         std::cerr << "Non Numerical-Number for first Pin" << std::endl;
-        return;
+        exit(84);
     }
     if (check_digit(nb_pin) == 84) {
         std::cerr << "Non Numerical-Number for second Pin" << std::endl;
-        return;
+        exit(84);
     }
     if (output->count(new_compo) != 0) {
-        IComponent &ref_to_comp = *(output->at(save));
-        output->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
-        return;
+        std::cerr << "Linking an output to another output" << std::endl;
+        exit(84);
     }
     if (component->count(new_compo) != 0) {
         IComponent &ref_to_comp = *(output->at(save));
@@ -342,10 +340,10 @@ void Parse::parse_link(std::vector<std::string> tab, std::map<std::string, IComp
         if (start == true && check_in_compo(tab[i], component) != -1) {
             make_link_compo(&component, &output, &input, tab[i]);
         }
-        if (start == true && check_in_input(tab[i], input) != -1) {
+        else if (start == true && check_in_input(tab[i], input) != -1) {
             make_link_input(&component, &output, &input, tab[i]);
         }
-        if (start == true && check_in_output(tab[i], output) != -1) {
+        else if (start == true && check_in_output(tab[i], output) != -1) {
             make_link_output(&component, &output, &input, tab[i]);
         }
         if (tab[i].compare(0, 7, ".links:") == 0)
