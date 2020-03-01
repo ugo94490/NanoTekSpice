@@ -102,6 +102,7 @@ void Chip4013::setLink(std::size_t pin, nts::IComponent &other, std::size_t othe
 
 void Chip4013::dump() const
 {
+    std::cout << "4013" << std::endl;
 }
 
 void Chip4013::setValue(Tristate const &val, size_t pin) {

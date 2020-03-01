@@ -124,6 +124,7 @@ void Chip4514::setLink(std::size_t pin, nts::IComponent &other, std::size_t othe
 
 void Chip4514::dump() const
 {
+    std::cout << "4514" << std::endl;
 }
 
 void Chip4514::setValue(Tristate const &val, size_t pin) {

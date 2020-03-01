@@ -138,8 +138,18 @@ void NanoTekSpice::loop()
 
 void NanoTekSpice::dump() const
 {
-    for (auto it = components.begin(); it != components.end(); ++it)
+    for (auto it = inputs.begin(); it != inputs.end(); ++it) {
+        std::cout << it->first << "=";
         it->second->dump();
+    }
+    for (auto it = components.begin(); it != components.end(); ++it) {
+        std::cout << it->first << ": ";
+        it->second->dump();
+    }
+    for (auto it = outputs.begin(); it != outputs.end(); ++it) {
+        std::cout << it->first << "=";
+        it->second->dump();
+    }
 }
 
 void NanoTekSpice::setValue(const std::string &input, const Tristate &value)
