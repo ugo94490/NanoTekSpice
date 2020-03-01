@@ -86,9 +86,9 @@ nts::IComponent *create4013(void)
 
 nts::IComponent *create4514(void)
 {
-    nts::IComponent *compo = new Chip4514();
+    //nts::IComponent *compo = new Chip4514();
 
-    return (compo);
+    //return (compo);
 }
 
 nts::IComponent *(*tab_fct[9])(void) = {
