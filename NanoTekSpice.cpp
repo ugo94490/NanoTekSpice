@@ -8,6 +8,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <signal.h>
 #include "Parse.hpp"
 #include "ICompute.hpp"
 #include "NanoTekSpice.hpp"
@@ -117,9 +118,20 @@ void NanoTekSpice::mainloop()
     }
 }
 
+static int _loop = 0;
+
+void handler(int sig)
+{
+    (void)sig;
+    _loop = 0;
+}
+
 void NanoTekSpice::loop()
 {
-    while (true) {
+    _loop = 1;
+
+    signal(SIGINT, handler);
+    while (_loop) {
         simulate();
     }
 }
