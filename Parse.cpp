@@ -288,8 +288,8 @@ void make_link_compo(std::map<std::string, IComponent *> *component, std::map<st
         return;
     }
     if (input->count(new_compo) != 0) {
-        IComponent &ref_to_comp = *(component->at(save));
-        input->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
+        IComponent &ref_to_comp = *(input->at(new_compo));
+        component->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
 }
@@ -328,8 +328,8 @@ void make_link_input(std::map<std::string, IComponent *> *component, std::map<st
         return;
     }
     if (component->count(new_compo) != 0) {
-        IComponent &ref_to_comp = *(component->at(save));
-        output->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
+        IComponent &ref_to_comp = *(input->at(save));
+        component->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (input->count(new_compo) != 0) {
@@ -371,13 +371,13 @@ void make_link_output(std::map<std::string, IComponent *> *component, std::map<s
         exit(84);
     }
     if (component->count(new_compo) != 0) {
-        IComponent &ref_to_comp = *(output->at(save));
-        component->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
+        IComponent &ref_to_comp = *(component->at(new_compo));
+        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
     if (input->count(new_compo) != 0) {
-        IComponent &ref_to_comp = *(output->at(save));
-        input->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
+        IComponent &ref_to_comp = *(input->at(new_compo));
+        output->at(save)->setLink(std::stoi(pin), ref_to_comp, std::stoi(nb_pin));
         return;
     }
 }
@@ -402,29 +402,3 @@ void Parse::parse_link(std::vector<std::string> tab, std::map<std::string, IComp
     }
     return;
 }
-
-void fill_nano(std::map<std::string, IComponent *> *component, std::map<std::string, IComponent *> *output, std::map<std::string, IComponent *> *input, NanoTekSpice &obj)
-{
-
-}
-
-/*int main(int ac, char **av)
-{
-
-    std::vector<std::string> tab;
-    std::string str;
-
-
-    if (ac == 2)
-        tab = Parse::open_read(av[1]);
-    else {
-        std::cout << "NO FILE IN PARAMETERS" << std::endl;
-        return (84);
-    }
-    if (tab.size() == 0 || Parse::check_error(tab) == 84) {
-        std::cout << "BAD FILE" << std::endl;
-        return (84);
-    }
-    return (0);
-}
-*/

@@ -19,7 +19,7 @@ OBJ	=	$(SRC:.cpp=.o)
 
 NAME	=	nanotekspice
 
-CPPFLAGS	=	-I./include
+CPPFLAGS	=	-I./include -g3
 
 $(NAME):	$(OBJ)
 	g++ -o $(NAME) $(OBJ) $(CPPFLAGS)
