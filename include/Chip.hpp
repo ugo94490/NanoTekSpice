@@ -95,4 +95,21 @@ namespace nts {
         std::map<size_t, std::pair<IComponent&, size_t>> address;
         std::map<size_t, Tristate> value;
     };
+
+    class Chip4069 : public IComponent
+    {
+    public:
+        Chip4069();
+        ~Chip4069();
+        nts::Tristate compute(std::size_t pin = 1);
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin);
+        bool checkLinkable(std::size_t pin);
+        void dump() const;
+        void setValue(Tristate const &val, size_t pin = 1);
+    
+    private:
+        std::map<size_t, std::string> entry;
+        std::map<size_t, std::pair<IComponent&, size_t>> address;
+        std::map<size_t, Tristate> value;
+    };
 };

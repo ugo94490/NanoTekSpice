@@ -10,6 +10,7 @@ SRC	=	Chip4001.cpp		\
 		Chip4030.cpp		\
 		Chip4071.cpp		\
 		Chip4081.cpp		\
+		Chip4069.cpp		\
 		NanoTekSpice.cpp	\
 		Parse.cpp
 

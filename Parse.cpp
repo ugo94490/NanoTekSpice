@@ -17,23 +17,23 @@
 using namespace nts;
 
 const std::map<size_t, std::string> puce {
-    {15, "2716"},
-    {16, "4008"},
-    {2, "4011"},
-    {3, "4013"},
-    {4, "4017"},
-    {5, "4030"},
+    {0, "4001"},
+    {1, "4071"},
+    {2, "4081"},
+    {3, "4069"},
+    {4, "4030"},
+    {5, "4011"},
     {6, "4040"},
-    {7, "4069"},
-    {8, "4081"},
+    {7, "4013"},
+    {8, "4017"},
     {9, "4094"},
     {10, "4503"},
     {11, "4512"},
     {12, "4514"},
     {13, "i4004"},
     {14, "mk4801"},
-    {1, "4071"},
-    {0, "4001"}
+    {15, "2716"},
+    {16, "4008"}
 };
 
 nts::IComponent *create4001(void)
@@ -50,9 +50,41 @@ IComponent *create4071(void)
     return (compo);
 }
 
-nts::IComponent *(*tab_fct[2])(void) = {
+IComponent *create4069(void)
+{
+    nts::IComponent *compo = new Chip4069();
+
+    return (compo);
+}
+
+IComponent *create4030(void)
+{
+    nts::IComponent *compo = new Chip4030();
+
+    return (compo);
+}
+
+IComponent *create4011(void)
+{
+    nts::IComponent *compo = new Chip4011();
+
+    return (compo);
+}
+
+IComponent *create4081(void)
+{
+    nts::IComponent *compo = new Chip4069();
+
+    return (compo);
+}
+
+nts::IComponent *(*tab_fct[6])(void) = {
     create4001,
-    create4071
+    create4071,
+    create4081,
+    create4069,
+    create4030,
+    create4011
 };
 
 std::vector<std::string> Parse::open_read(std::string stream)
