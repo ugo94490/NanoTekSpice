@@ -85,14 +85,22 @@ nts::IComponent *create4008(void)
     return (compo);
 }
 
-nts::IComponent *(*tab_fct[7])(void) = {
+nts::IComponent *create4013(void)
+{
+    nts::IComponent *compo = new Chip4013();
+
+    return (compo);
+}
+
+nts::IComponent *(*tab_fct[8])(void) = {
     create4001,
     create4071,
     create4081,
     create4069,
     create4030,
     create4011,
-    create4008
+    create4008,
+    create4013
 };
 
 std::vector<std::string> Parse::open_read(std::string stream)

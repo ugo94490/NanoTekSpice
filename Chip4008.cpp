@@ -56,12 +56,12 @@ Chip4008::~Chip4008()
 Tristate Chip4008::compute(std::size_t pin)
 {
     for (auto it = value.begin(); it != value.end(); ++it) {
-        if (it->first != 8 && address.find(it->first) != address.end())
-            value.at(it->first) = address.at(it->first).first.compute(address.at(1).second);
+        if (address.find(it->first) != address.end())
+            value.at(it->first) = address.at(it->first).first.compute(address.at(it->first).second);
     }
     if (entry.find(pin) == entry.end() || entry.at(pin) != "output") {
         std::cerr << "invalid pin for compute" << std::endl;
-        return UNDEFINED;
+        exit(84);
     }
     value.at(10) = Compute::computeSum(value.at(6), value.at(7), value.at(9));
     value.at(14) = Compute::computeSumCarry(value.at(6), value.at(7), value.at(9));

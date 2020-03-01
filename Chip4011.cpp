@@ -52,12 +52,12 @@ Chip4011::~Chip4011()
 Tristate Chip4011::compute(std::size_t pin)
 {
     for (auto it = value.begin(); it != value.end(); ++it) {
-        if (it->first != 8 && address.find(it->first) != address.end())
-            value.at(it->first) = address.at(it->first).first.compute(address.at(1).second);
+        if (address.find(it->first) != address.end())
+            value.at(it->first) = address.at(it->first).first.compute(address.at(it->first).second);
     }
-    if (pin < 1 || pin == 7 || pin > 13) {
+    if (entry.find(pin) == entry.end() || entry.at(pin) != "output") {
         std::cerr << "invalid pin for compute" << std::endl;
-        return UNDEFINED;
+        exit(84);
     }
     switch (pin) {
         case 3:

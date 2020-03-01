@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2020
-** Chip4069
+** Chip4013
 ** File description:
-** Chip4069
+** Chip4013
 */
 
 #include "Chip.hpp"
@@ -10,18 +10,18 @@
 using namespace nts;
 static const std::map<size_t, std::string> entrytypes =
 {
-    {1, "input"},
+    {1, "output"},
     {2, "output"},
     {3, "input"},
-    {4, "output"},
+    {4, "input"},
     {5, "input"},
-    {6, "output"},
-    {8, "output"},
+    {6, "input"},
+    {8, "input"},
     {9, "input"},
-    {10, "output"},
+    {10, "input"},
     {11, "input"},
     {12, "output"},
-    {13, "input"}
+    {13, "output"}
 };
 static const std::map<size_t, Tristate> values =
 {
@@ -39,17 +39,17 @@ static const std::map<size_t, Tristate> values =
     {13, UNDEFINED}
 };
 
-Chip4069::Chip4069()
+Chip4013::Chip4013()
 {
     entry = entrytypes;
     value = values;
 }
 
-Chip4069::~Chip4069()
+Chip4013::~Chip4013()
 {
 }
 
-Tristate Chip4069::compute(std::size_t pin)
+Tristate Chip4013::compute(std::size_t pin)
 {
     for (auto it = value.begin(); it != value.end(); ++it) {
         if (address.find(it->first) != address.end())
@@ -60,38 +60,32 @@ Tristate Chip4069::compute(std::size_t pin)
         exit(84);
     }
     switch (pin) {
+        case 1:
+            value.at(1) = Compute::computeNand(Compute::computeNot(value.at(6)), Compute::computeNand(value.at(5), value.at(3)));
+            return (value.at(1));
         case 2:
-            value.at(2) = Compute::computeNot(value.at(1));
+            value.at(2) = Compute::computeNand(Compute::computeNand(Compute::computeNand(value.at(5), value.at(5)), value.at(3)), value.at(4));
             return (value.at(2));
-        case 4:
-            value.at(4) = Compute::computeNot(value.at(3));
-            return (value.at(4));
-        case 6:
-            value.at(6) = Compute::computeNot(value.at(5));
-            return (value.at(6));
-        case 8:
-            value.at(8) = Compute::computeNot(value.at(9));
-            return (value.at(8));
-        case 10:
-            value.at(10) = Compute::computeNot(value.at(11));
-            return (value.at(10));
         case 12:
-            value.at(12) = Compute::computeNot(value.at(13));
+            value.at(12) = Compute::computeNand(Compute::computeNand(Compute::computeNand(value.at(9), value.at(9)), value.at(11)), value.at(10));
             return (value.at(12));
+        case 13:
+            value.at(13) = Compute::computeNand(Compute::computeNot(value.at(8)), Compute::computeNand(value.at(9), value.at(11)));
+            return (value.at(13));
         default:
             std::cerr << "invalid pin for compute" << std::endl;
             return UNDEFINED;
     }
 }
 
-bool Chip4069::checkLinkable(std::size_t pin)
+bool Chip4013::checkLinkable(std::size_t pin)
 {
     if (entry.find(pin) == entry.end() || entry.at(pin) != "output")
         return false;
     return true;
 }
 
-void Chip4069::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
+void Chip4013::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
     if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin)) {
         std::cerr << pin << ", " << otherPin << std::endl;
@@ -106,10 +100,10 @@ void Chip4069::setLink(std::size_t pin, nts::IComponent &other, std::size_t othe
         address.insert({pin, {other, otherPin}});
 }
 
-void Chip4069::dump() const
+void Chip4013::dump() const
 {
 }
 
-void Chip4069::setValue(Tristate const &val, size_t pin) {
+void Chip4013::setValue(Tristate const &val, size_t pin) {
     value.at(pin) = val;
 }
