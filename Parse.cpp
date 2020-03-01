@@ -25,15 +25,7 @@ const std::map<size_t, std::string> puce {
     {5, "4011"},
     {6, "4008"},
     {7, "4013"},
-    {8, "4017"},
-    {9, "4094"},
-    {10, "4503"},
-    {11, "4512"},
-    {12, "4514"},
-    {13, "i4004"},
-    {14, "mk4801"},
-    {15, "2716"},
-    {16, "4040"}
+    {8, "4514"}
 };
 
 nts::IComponent *create4001(void)
@@ -92,7 +84,14 @@ nts::IComponent *create4013(void)
     return (compo);
 }
 
-nts::IComponent *(*tab_fct[8])(void) = {
+nts::IComponent *create4514(void)
+{
+    nts::IComponent *compo = new Chip4514();
+
+    return (compo);
+}
+
+nts::IComponent *(*tab_fct[9])(void) = {
     create4001,
     create4071,
     create4081,
@@ -100,7 +99,8 @@ nts::IComponent *(*tab_fct[8])(void) = {
     create4030,
     create4011,
     create4008,
-    create4013
+    create4013,
+    create4514
 };
 
 std::vector<std::string> Parse::open_read(std::string stream)
