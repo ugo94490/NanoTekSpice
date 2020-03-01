@@ -127,10 +127,14 @@ std::vector<std::string> Parse::clean_comment(std::vector<std::string> tab)
 std::vector<std::string> Parse::clean_str(std::vector<std::string> tab)
 {
     for (std::vector<std::string>::size_type i = 0; i < tab.size(); i++)
+        for (int j = 0; tab[i][j]; j++)
+            if (tab[i][j] == '\t')
+                tab[i][j] == ' ';
+    for (std::vector<std::string>::size_type i = 0; i < tab.size(); i++)
         for (int j = 0; tab[i][j]; j++) {
             while (tab[i][j] == ' ' && ((j < tab[i].size() && tab[i][j + 1] == ' ') || (j < tab[i].size() && tab[i][j + 1] == '\n')))
                 tab[i].erase(j + 1, 1);
-            if (tab[i][0] == ' ')
+            if (tab[i][0] == ' ' || tab[i][0] == '\t')
                 tab[i].erase(0, 1);
         }
     return (tab);
