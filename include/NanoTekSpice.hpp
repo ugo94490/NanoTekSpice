@@ -66,14 +66,14 @@ namespace nts {
         std::map<size_t, Tristate> value;
     };
 
-    class True : public IComponent
+    class True_c : public IComponent
     {
     public:
-        True() {
+        True_c() {
             entry.insert({1, "output"});
             value.insert({1, TRUE});
         }
-        ~True() = default;
+        ~True_c() = default;
         nts::Tristate compute(std::size_t pin = 1) {
             if (value.find(pin) != value.end())
                 return value.at(pin);
@@ -104,14 +104,14 @@ namespace nts {
         std::map<size_t, Tristate> value;
     };
 
-    class False : public IComponent
+    class False_c : public IComponent
     {
     public:
-        False() {
+        False_c() {
             entry.insert({1, "output"});
             value.insert({1, FALSE});
         }
-        ~False() = default;
+        ~False_c() = default;
         nts::Tristate compute(std::size_t pin = 1) {
             if (value.find(pin) != value.end())
                 return value.at(pin);
@@ -135,6 +135,43 @@ namespace nts {
         void setValue(Tristate const &val, size_t pin = 1) {
             std::cerr << "Try to set value of false component" << std::endl;
             exit(84);
+        }
+
+    private:
+        std::map<size_t, std::string> entry;
+        std::map<size_t, Tristate> value;
+    };
+
+    class Clock : public IComponent
+    {
+    public:
+        Clock() {
+            entry.insert({1, "output"});
+            value.insert({1, UNDEFINED});
+        }
+        ~Clock() = default;
+        nts::Tristate compute(std::size_t pin = 1) {
+            if (value.find(pin) != value.end())
+                return value.at(pin);
+            return (UNDEFINED);
+        }
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
+            std::cerr << "Tried to link pure input with an output !" << std::endl;
+            exit(84);
+        }
+        bool checkLinkable(std::size_t pin) {
+            if (pin == 1)
+                return true;
+            return false;
+        }
+        void dump() const {
+            if (value.at(1) == UNDEFINED)
+                std::cout << "U" << std::endl;
+            else
+                std::cout << value.at(1) << std::endl;
+        }
+        void setValue(Tristate const &val, size_t pin = 1) {
+            value.at(pin) = val;
         }
 
     private:

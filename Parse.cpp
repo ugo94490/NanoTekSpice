@@ -107,6 +107,12 @@ std::map<std::string, IComponent *> Parse::get_input(std::vector<std::string> ta
             start = true;
         if (tab[i].compare(0, 6, "input ") == 0 && start == true)
             input.insert({tab[i].substr(6, tab[i].size() - 7), new Input});
+        if (tab[i].compare(0, 5, "true ") == 0 && start == true)
+            input.insert({tab[i].substr(5, tab[i].size() - 6), new True_c});
+        if (tab[i].compare(0, 6, "false ") == 0 && start == true)
+            input.insert({tab[i].substr(6, tab[i].size() - 7), new False_c});
+        if (tab[i].compare(0, 6, "clock ") == 0 && start == true)
+            input.insert({tab[i].substr(6, tab[i].size() - 7), new Clock});
         if (tab[i].compare(0, 7, ".links:") == 0)
             start = false;
     }
