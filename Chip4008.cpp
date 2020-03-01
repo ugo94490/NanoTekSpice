@@ -59,7 +59,7 @@ Tristate Chip4008::compute(std::size_t pin)
         if (it->first != 8 && address.find(it->first) != address.end())
             value.at(it->first) = address.at(it->first).first.compute(address.at(1).second);
     }
-    if (pin < 1 || pin == 8 || pin > 15 || entry.at(pin) != "output") {
+    if (entry.find(pin) == entry.end() || entry.at(pin) != "output") {
         std::cerr << "invalid pin for compute" << std::endl;
         return UNDEFINED;
     }
