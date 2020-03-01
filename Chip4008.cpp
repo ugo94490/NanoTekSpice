@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2020
 ** OOP_nanotekspice_2019
 ** File description:
-** Chip4001
+** Chip4008
 */
 
 #include "Chip.hpp"
@@ -12,16 +12,18 @@ static const std::map<size_t, std::string> entrytypes =
 {
     {1, "input"},
     {2, "input"},
-    {3, "output"},
-    {4, "output"},
+    {3, "input"},
+    {4, "input"},
     {5, "input"},
     {6, "input"},
-    {8, "input"},
+    {7, "input"},
     {9, "input"},
     {10, "output"},
     {11, "output"},
-    {12, "input"},
-    {13, "input"}
+    {12, "output"},
+    {13, "output"},
+    {14, "output"},
+    {15, "input"}
 };
 static const std::map<size_t, Tristate> values =
 {
@@ -31,61 +33,49 @@ static const std::map<size_t, Tristate> values =
     {4, UNDEFINED},
     {5, UNDEFINED},
     {6, UNDEFINED},
-    {8, UNDEFINED},
+    {7, UNDEFINED},
     {9, UNDEFINED},
     {10, UNDEFINED},
     {11, UNDEFINED},
     {12, UNDEFINED},
-    {13, UNDEFINED}
+    {13, UNDEFINED},
+    {14, UNDEFINED},
+    {15, UNDEFINED}
 };
 
-Chip4001::Chip4001()
+Chip4008::Chip4008()
 {
     entry = entrytypes;
     value = values;
 }
 
-Chip4001::~Chip4001()
+Chip4008::~Chip4008()
 {
 }
 
-Tristate Chip4001::compute(std::size_t pin)
+Tristate Chip4008::compute(std::size_t pin)
 {
     for (auto it = value.begin(); it != value.end(); ++it) {
         if (it->first != 8 && address.find(it->first) != address.end())
             value.at(it->first) = address.at(it->first).first.compute(address.at(1).second);
     }
-    if (pin < 1 || pin == 7 || pin > 13) {
+    if (pin < 1 || pin == 8 || pin > 15) {
         std::cerr << "invalid pin for compute" << std::endl;
         return UNDEFINED;
     }
     switch (pin) {
-        case 3:
-            value.at(3) = Compute::computeNor(value.at(1), value.at(2));
-            return (value.at(3));
-        case 4:
-            value.at(4) = Compute::computeNor(value.at(5), value.at(6));
-            return value.at(4);
-        case 10:
-            value.at(10) = Compute::computeNor(value.at(8), value.at(9));
-            return value.at(10);
-        case 11:
-            value.at(11) = Compute::computeNor(value.at(12), value.at(13));
-            return value.at(11);
-        default:
-            std::cerr << "invalid pin for compute" << std::endl;
-            return UNDEFINED;
+
     }
 }
 
-bool Chip4001::checkLinkable(std::size_t pin)
+bool Chip4008::checkLinkable(std::size_t pin)
 {
     if (entry.find(pin) == entry.end() || entry.at(pin) != "output")
         return false;
     return true;
 }
 
-void Chip4001::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
+void Chip4008::setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin)
 {
     if (entry.find(pin) == entry.end() || entry.at(pin) != "input" || !other.checkLinkable(otherPin)) {
         std::cerr << pin << ", " << otherPin << std::endl;
@@ -100,10 +90,10 @@ void Chip4001::setLink(std::size_t pin, nts::IComponent &other, std::size_t othe
         address.insert({pin, {other, otherPin}});
 }
 
-void Chip4001::dump() const
+void Chip4008::dump() const
 {
 }
 
-void Chip4001::setValue(Tristate const &val, size_t pin) {
+void Chip4008::setValue(Tristate const &val, size_t pin) {
     value.at(pin) = val;
 }
