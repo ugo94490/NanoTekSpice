@@ -23,7 +23,7 @@ const std::map<size_t, std::string> puce {
     {3, "4069"},
     {4, "4030"},
     {5, "4011"},
-    {6, "4040"},
+    {6, "4008"},
     {7, "4013"},
     {8, "4017"},
     {9, "4094"},
@@ -33,7 +33,7 @@ const std::map<size_t, std::string> puce {
     {13, "i4004"},
     {14, "mk4801"},
     {15, "2716"},
-    {16, "4008"}
+    {16, "4040"}
 };
 
 nts::IComponent *create4001(void)
@@ -78,13 +78,21 @@ IComponent *create4081(void)
     return (compo);
 }
 
-nts::IComponent *(*tab_fct[6])(void) = {
+nts::IComponent *create4008(void)
+{
+    nts::IComponent *compo = new Chip4008();
+
+    return (compo);
+}
+
+nts::IComponent *(*tab_fct[7])(void) = {
     create4001,
     create4071,
     create4081,
     create4069,
     create4030,
-    create4011
+    create4011,
+    create4008
 };
 
 std::vector<std::string> Parse::open_read(std::string stream)
@@ -135,6 +143,7 @@ std::map<std::string, IComponent *> Parse::get_input(std::vector<std::string> ta
     Input inpu;
 
     for (std::vector<std::string>::size_type i = 0; i < tab.size(); i++) {
+        std::cout << tab[i] << std::endl;
         if (tab[i].compare(0, 10, ".chipsets:") == 0)
             start = true;
         if (tab[i].compare(0, 6, "input ") == 0 && start == true)

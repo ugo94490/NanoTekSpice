@@ -92,6 +92,8 @@ void NanoTekSpice::mainloop()
     for (auto it = inputs.begin(); it != inputs.end(); ++it) {
         if (it->second->compute() == UNDEFINED)
             exit(84);
+        else
+            std::cout << it->second->compute() << std::endl;
     }
     simulate();
     display();

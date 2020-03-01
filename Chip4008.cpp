@@ -55,6 +55,7 @@ Chip4008::~Chip4008()
 
 Tristate Chip4008::compute(std::size_t pin)
 {
+    return UNDEFINED;
     for (auto it = value.begin(); it != value.end(); ++it) {
         if (it->first != 8 && address.find(it->first) != address.end())
             value.at(it->first) = address.at(it->first).first.compute(address.at(1).second);
@@ -65,6 +66,9 @@ Tristate Chip4008::compute(std::size_t pin)
     }
     switch (pin) {
 
+        default:
+            std::cerr << "invalid pin for compute" << std::endl;
+            return UNDEFINED;
     }
 }
 

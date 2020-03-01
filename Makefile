@@ -6,6 +6,7 @@
 ##
 
 SRC	=	Chip4001.cpp		\
+		Chip4008.cpp		\
 		Chip4011.cpp		\
 		Chip4030.cpp		\
 		Chip4071.cpp		\
