@@ -51,26 +51,26 @@ Chip4030::~Chip4030()
 
 Tristate Chip4030::compute(std::size_t pin)
 {
+    for (auto it = value.begin(); it != value.end(); ++it) {
+        if (it->first != 8 && address.find(it->first) != address.end())
+            value.at(it->first) = address.at(it->first).first.compute(address.at(1).second);
+    }
     if (pin < 1 || pin == 7 || pin > 13) {
         std::cerr << "invalid pin for compute" << std::endl;
         return UNDEFINED;
     }
     switch (pin) {
         case 3:
-            value.at(3) = Compute::computeXor(address.find(1) != address.end() ? address.at(1).first.compute(address.at(1).second) : value.at(1),
-            address.find(2) != address.end() ? address.at(2).first.compute(address.at(2).second) : value.at(2));
+            value.at(3) = Compute::computeXor(value.at(1), value.at(2));
             return (value.at(3));
         case 4:
-            value.at(4) = Compute::computeXor(address.find(5) != address.end() ? address.at(5).first.compute(address.at(5).second) : value.at(5),
-            address.find(6) != address.end() ? address.at(6).first.compute(address.at(6).second) : value.at(6));
+            value.at(4) = Compute::computeXor(value.at(5), value.at(6));
             return value.at(4);
         case 10:
-            value.at(10) = Compute::computeXor(address.find(8) != address.end() ? address.at(8).first.compute(address.at(8).second) : value.at(8),
-            address.find(9) != address.end() ? address.at(9).first.compute(address.at(9).second) : value.at(9));
+            value.at(10) = Compute::computeXor(value.at(8), value.at(9));
             return value.at(10);
         case 11:
-            value.at(11) = Compute::computeXor(address.find(12) != address.end() ? address.at(12).first.compute(address.at(12).second) : value.at(13),
-            address.find(13) != address.end() ? address.at(13).first.compute(address.at(13).second) : value.at(13));
+            value.at(11) = Compute::computeXor(value.at(12), value.at(13));
             return value.at(11);
         default:
             std::cerr << "invalid pin for compute" << std::endl;
