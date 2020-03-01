@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include "Parse.hpp"
+#include "ICompute.hpp"
 #include "NanoTekSpice.hpp"
 
 using namespace nts;
@@ -39,6 +40,9 @@ void NanoTekSpice::simulate()
     for (auto it = outputs.begin(); it != outputs.end(); ++it) {
         it->second->compute();
     }
+    for (auto it = inputs.begin(); it != inputs.end(); ++it)
+        if (dynamic_cast<Clock *>(it->second))
+            it->second->setValue(Compute::computeNot(it->second->compute()));
 }
 
 void NanoTekSpice::display() const
@@ -92,8 +96,6 @@ void NanoTekSpice::mainloop()
     for (auto it = inputs.begin(); it != inputs.end(); ++it) {
         if (it->second->compute() == UNDEFINED)
             exit(84);
-        else
-            std::cout << it->second->compute() << std::endl;
     }
     simulate();
     display();

@@ -147,7 +147,6 @@ std::map<std::string, IComponent *> Parse::get_input(std::vector<std::string> ta
     Input inpu;
 
     for (std::vector<std::string>::size_type i = 0; i < tab.size(); i++) {
-        std::cout << tab[i] << std::endl;
         if (tab[i].compare(0, 10, ".chipsets:") == 0)
             start = true;
         if (tab[i].compare(0, 6, "input ") == 0 && start == true)
