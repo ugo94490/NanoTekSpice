@@ -66,6 +66,82 @@ namespace nts {
         std::map<size_t, Tristate> value;
     };
 
+    class True : public IComponent
+    {
+    public:
+        True() {
+            entry.insert({1, "output"});
+            value.insert({1, TRUE});
+        }
+        ~True() = default;
+        nts::Tristate compute(std::size_t pin = 1) {
+            if (value.find(pin) != value.end())
+                return value.at(pin);
+            return (UNDEFINED);
+        }
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
+            std::cerr << "Tried to link pure input with an output !" << std::endl;
+            exit(84);
+        }
+        bool checkLinkable(std::size_t pin) {
+            if (pin == 1)
+                return true;
+            return false;
+        }
+        void dump() const {
+            if (value.at(1) == UNDEFINED)
+                std::cout << "U" << std::endl;
+            else
+                std::cout << value.at(1) << std::endl;
+        }
+        void setValue(Tristate const &val, size_t pin = 1) {
+            std::cerr << "Try to set value of true component" << std::endl;
+            exit(84);
+        }
+
+    private:
+        std::map<size_t, std::string> entry;
+        std::map<size_t, Tristate> value;
+    };
+
+    class False : public IComponent
+    {
+    public:
+        False() {
+            entry.insert({1, "output"});
+            value.insert({1, FALSE});
+        }
+        ~False() = default;
+        nts::Tristate compute(std::size_t pin = 1) {
+            if (value.find(pin) != value.end())
+                return value.at(pin);
+            return (UNDEFINED);
+        }
+        void setLink(std::size_t pin, nts::IComponent &other, std::size_t otherPin) {
+            std::cerr << "Tried to link pure input with an output !" << std::endl;
+            exit(84);
+        }
+        bool checkLinkable(std::size_t pin) {
+            if (pin == 1)
+                return true;
+            return false;
+        }
+        void dump() const {
+            if (value.at(1) == UNDEFINED)
+                std::cout << "U" << std::endl;
+            else
+                std::cout << value.at(1) << std::endl;
+        }
+        void setValue(Tristate const &val, size_t pin = 1) {
+            std::cerr << "Try to set value of false component" << std::endl;
+            exit(84);
+        }
+
+    private:
+        std::map<size_t, std::string> entry;
+        std::map<size_t, Tristate> value;
+    };
+
     class Output : public IComponent
     {
     public:

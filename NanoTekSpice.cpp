@@ -87,8 +87,12 @@ void NanoTekSpice::setValue(std::string str)
 
 void NanoTekSpice::mainloop()
 {
-    std::string usrinput = "d";
+    std::string usrinput = "";
 
+    for (auto it = inputs.begin(); it != inputs.end(); ++it) {
+        if (it->second->compute() == UNDEFINED)
+            exit(84);
+    }
     simulate();
     display();
     while (usrinput != "exit") {
