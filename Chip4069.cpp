@@ -11,16 +11,16 @@ using namespace nts;
 static const std::map<size_t, std::string> entrytypes =
 {
     {1, "input"},
-    {2, "input"},
-    {3, "output"},
+    {2, "output"},
+    {3, "input"},
     {4, "output"},
     {5, "input"},
-    {6, "input"},
-    {8, "input"},
+    {6, "output"},
+    {8, "output"},
     {9, "input"},
     {10, "output"},
-    {11, "output"},
-    {12, "input"},
+    {11, "input"},
+    {12, "output"},
     {13, "input"}
 };
 static const std::map<size_t, Tristate> values =
