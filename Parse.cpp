@@ -129,7 +129,7 @@ std::vector<std::string> Parse::clean_str(std::vector<std::string> tab)
     for (std::vector<std::string>::size_type i = 0; i < tab.size(); i++)
         for (int j = 0; tab[i][j]; j++)
             if (tab[i][j] == '\t')
-                tab[i][j] == ' ';
+                tab[i][j] = ' ';
     for (std::vector<std::string>::size_type i = 0; i < tab.size(); i++)
         for (int j = 0; tab[i][j]; j++) {
             while (tab[i][j] == ' ' && ((j < tab[i].size() && tab[i][j + 1] == ' ') || (j < tab[i].size() && tab[i][j + 1] == '\n')))
@@ -328,8 +328,8 @@ void make_link_input(std::map<std::string, IComponent *> *component, std::map<st
         return;
     }
     if (component->count(new_compo) != 0) {
-        IComponent &ref_to_comp = *(input->at(save));
-        component->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
+        IComponent &ref_to_comp = *(component->at(save));
+        output->at(new_compo)->setLink(std::stoi(nb_pin), ref_to_comp, std::stoi(pin));
         return;
     }
     if (input->count(new_compo) != 0) {
