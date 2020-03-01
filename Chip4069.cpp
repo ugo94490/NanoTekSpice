@@ -60,6 +60,24 @@ Tristate Chip4069::compute(std::size_t pin)
         return UNDEFINED;
     }
     switch (pin) {
+        case 2:
+            value.at(2) = Compute::computeNot(value.at(1));
+            return (value.at(2));
+        case 4:
+            value.at(4) = Compute::computeNot(value.at(3));
+            return (value.at(4));
+        case 6:
+            value.at(6) = Compute::computeNot(value.at(5));
+            return (value.at(6));
+        case 8:
+            value.at(8) = Compute::computeNot(value.at(9));
+            return (value.at(8));
+        case 10:
+            value.at(10) = Compute::computeNot(value.at(11));
+            return (value.at(10));
+        case 12:
+            value.at(12) = Compute::computeNot(value.at(13));
+            return (value.at(12));
         default:
             std::cerr << "invalid pin for compute" << std::endl;
             return UNDEFINED;

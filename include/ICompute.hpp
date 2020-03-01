@@ -49,5 +49,12 @@ namespace nts
                 return TRUE;
             return FALSE;
         }
+        static Tristate computeNot(Tristate const &val) {
+            if (val == UNDEFINED)
+                return (UNDEFINED);
+            if (val == TRUE)
+                return (FALSE);
+            return (TRUE);
+        }
     };
 };
