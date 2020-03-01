@@ -11,16 +11,16 @@ using namespace nts;
 static const std::map<size_t, std::string> entrytypes =
 {
     {1, "input"},
-    {2, "input"},
-    {3, "output"},
+    {2, "output"},
+    {3, "input"},
     {4, "output"},
     {5, "input"},
-    {6, "input"},
-    {8, "input"},
+    {6, "output"},
+    {8, "output"},
     {9, "input"},
     {10, "output"},
-    {11, "output"},
-    {12, "input"},
+    {11, "input"},
+    {12, "output"},
     {13, "input"}
 };
 static const std::map<size_t, Tristate> values =
@@ -60,6 +60,24 @@ Tristate Chip4069::compute(std::size_t pin)
         return UNDEFINED;
     }
     switch (pin) {
+        case 2:
+            value.at(2) = Compute::computeNot(value.at(1));
+            return (value.at(2));
+        case 4:
+            value.at(4) = Compute::computeNot(value.at(3));
+            return (value.at(4));
+        case 6:
+            value.at(6) = Compute::computeNot(value.at(5));
+            return (value.at(6));
+        case 8:
+            value.at(8) = Compute::computeNot(value.at(9));
+            return (value.at(8));
+        case 10:
+            value.at(10) = Compute::computeNot(value.at(11));
+            return (value.at(10));
+        case 12:
+            value.at(12) = Compute::computeNot(value.at(13));
+            return (value.at(12));
         default:
             std::cerr << "invalid pin for compute" << std::endl;
             return UNDEFINED;
