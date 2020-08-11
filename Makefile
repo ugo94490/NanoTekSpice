@@ -5,17 +5,17 @@
 ## Makefile
 ##
 
-SRC	=	Chip4001.cpp		\
-		Chip4008.cpp		\
-		Chip4011.cpp		\
-		Chip4030.cpp		\
-		Chip4071.cpp		\
-		Chip4081.cpp		\
-		Chip4069.cpp		\
-		Chip4013.cpp		\
-		Chip4514.cpp		\
-		NanoTekSpice.cpp	\
-		Parse.cpp
+SRC	=	src/Chip4001.cpp		\
+		src/Chip4008.cpp		\
+		src/Chip4011.cpp		\
+		src/Chip4030.cpp		\
+		src/Chip4071.cpp		\
+		src/Chip4081.cpp		\
+		src/Chip4069.cpp		\
+		src/Chip4013.cpp		\
+		src/Chip4514.cpp		\
+		src/NanoTekSpice.cpp	\
+		src/Parse.cpp
 
 OBJ	=	$(SRC:.cpp=.o)
 
