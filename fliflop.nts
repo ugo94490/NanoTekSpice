@@ -1,0 +1,11 @@
+# Admiral Business Machines 1954-2042
+# D - Latch
+.chipsets:
+input a
+input b
+output out
+4071 and
+.links:
+a:1 and:1
+b:1 and:2
+and:3 out:1
