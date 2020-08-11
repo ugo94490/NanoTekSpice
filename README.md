@@ -46,7 +46,7 @@ $> make
 $> ./nanotekspice configuration_file.ts input_name=input_value
 ```
 
-Example: ./arcade adder.nts a=1 b=0
+Example: ./nanotekspice adder.nts a=1 b=0
 
 
 <!-- USAGE EXAMPLES -->
